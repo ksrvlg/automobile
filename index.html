@@ -1,281 +1,574 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>iOS Settings • Sign-in Popup</title>
-  <style>
-    :root{
-      --bg:#f2f2f7; --card:#fff; --ink:#1d1d1f; --sub:#6e6e73; --blue:#007aff; --border:#e5e5ea; --shadow:0 10px 30px rgba(0,0,0,.25)
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;line-height:1.4}
-
-    /* ===== Settings UI ===== */
-    .nav{position:sticky; top:0; z-index:0; background:var(--bg); padding:16px 16px 8px}
-    .nav h1{margin:0 0 12px; font-weight:700; font-size:28px}
-    .search{position:relative}
-    .search input{width:100%; padding:10px 36px 10px 12px; border:1px solid var(--border); border-radius:10px; background:#fff; font-size:14px}
-    .search .icon{position:absolute; right:10px; top:50%; transform:translateY(-50%); font-size:13px; color:var(--sub)}
-
-    .wrap{max-width:900px; margin:0 auto; padding:0 16px 40px}
-    .card{background:var(--card); border-radius:12px; box-shadow:0 1px 0 rgba(0,0,0,.04); overflow:hidden; margin-top:14px}
-    .row{display:flex; align-items:center; gap:12px; padding:12px 14px; border-top:1px solid var(--border)}
-    .row:first-child{border-top:none}
-    .sub{font-size:12px; color:var(--sub)}
-    .chev{margin-left:auto; color:var(--sub)}
-    .avatar{width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,#9be2ff,#c9f7ff)}
-    .section-title{margin:18px 8px 6px; font-size:13px; color:var(--sub)}
-
-    .ico{width:26px;height:26px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:14px}
-    .wifi{background:#007aff}.bt{background:#0a84ff}.cell{background:#34c759}.notif{background:#ff9f0a}.sound{background:#5856d6}.focus{background:#ff375f}.screent{background:#32ade6}
-
-    /* ===== Classic iOS Popup Overlays ===== */
-    .overlay, .warning-overlay, .tollfree-overlay{position:fixed; inset:0; background:rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; z-index:10; padding:16px}
-    .overlay[aria-hidden="false"], .warning-overlay[aria-hidden="false"], .tollfree-overlay[aria-hidden="false"]{display:flex}
-
-    .dialog, .warning-dialog, .tollfree-dialog{background:#fff; width:320px; max-width:90vw; border-radius:12px; box-shadow:var(--shadow); text-align:center; overflow:hidden}
-    .dlg-body, .warning-dlg-body, .tollfree-dlg-body{padding:18px 18px 12px}
-    .dlg-title, .warning-dlg-title, .tollfree-dlg-title{margin:0 0 8px; font-size:18px; font-weight:600; color:#111}
-    .dlg-text, .warning-dlg-text, .tollfree-dlg-text{margin:0 0 12px; font-size:14px; font-weight:500; color:#333}
-    .dlg-email{font-weight:600}
-    .field{padding:0 18px 14px}
-    .input{width:100%; padding:8px 10px; border:1px solid #c7c7cc; border-radius:6px; font-size:14px}
-
-    .dlg-divider, .warning-dlg-divider, .tollfree-dlg-divider{height:1px; background:#e0e0e0}
-    .dlg-actions, .warning-dlg-actions, .tollfree-dlg-actions{display:flex; align-items:stretch; justify-content:stretch}
-    .dlg-btn, .warning-dlg-btn, .tollfree-dlg-btn{flex:1; background:#fff; border:0; padding:12px 0; font-size:16px; font-weight:500; color:var(--blue); cursor:pointer}
-    .dlg-btn:disabled, .warning-dlg-btn:disabled, .tollfree-dlg-btn:disabled{color:#999; cursor:not-allowed}
-    .dlg-btn:active, .warning-dlg-btn:active, .tollfree-dlg-btn:active{background:#f5f5f5}
-    .dlg-btn + .dlg-btn, .warning-dlg-btn + .warning-dlg-btn, .tollfree-dlg-btn + .tollfree-dlg-btn{border-left:1px solid #e0e0e0}
-
-    /* ===== Footer Call Bar ===== */
-    .footer-call-bar{position:sticky; bottom:0; background:var(--card); padding:12px 16px; text-align:center; border-top:1px solid var(--border); box-shadow:0 -1px 0 rgba(0,0,0,.04); z-index:5}
-    .footer-call-bar a{font-size:16px; font-weight:500; color:var(--blue); text-decoration:none}
-    .footer-call-bar a:active{color:#005bb5}
-
-    @media (max-width:520px){ 
-      .nav h1{font-size:24px} 
-      .footer-call-bar a{font-size:14px}
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spin the Wheel - Win $100 BTC</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            color: white;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 800px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .logo-container {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        
+        .wheel {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff9966, #ff5e62);
+            margin: 0 auto 30px;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .wheel:hover {
+            transform: scale(1.05);
+        }
+        
+        .wheel::before {
+            content: '';
+            position: absolute;
+            width: 95%;
+            height: 95%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff5e62, #ff9966);
+            z-index: 1;
+        }
+        
+        .wheel-text {
+            position: relative;
+            z-index: 2;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 2px;
+        }
+        
+        .spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background-color: #333;
+            border-radius: 50%;
+            z-index: 3;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .spinner:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .logo-text {
+            font-size: 48px;
+            font-weight: 900;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        .logo-text::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(to right, transparent, #fff, transparent);
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+        
+        .spin-button {
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            background: linear-gradient(to right, #ff9966, #ff5e62);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 20px;
+        }
+        
+        .spin-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .spin-button:active {
+            transform: translateY(1px);
+        }
+        
+        .wheel-spinning {
+            animation: spin 2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(1080deg);
+            }
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Prize section */
+        .prize-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 500px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .prize-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #ffdd00;
+            text-shadow: 0 0 10px rgba(255, 221, 0, 0.5);
+        }
+        
+        .prize-amount {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ffdd00;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(255, 221, 0, 0.7);
+        }
+        
+        .prize-description {
+            font-size: 16px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .claim-button {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            background: linear-gradient(to right, #4CAF50, #45a049);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+        
+        .claim-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .claim-button:active {
+            transform: translateY(1px);
+        }
+        
+        .claim-button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: modalAppear 0.5s ease;
+        }
+        
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #ffdd00;
+        }
+        
+        .modal-text {
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .modal-button {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-button.primary {
+            background: linear-gradient(to right, #4CAF50, #45a049);
+            color: white;
+        }
+        
+        .modal-button.secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+            z-index: 9999;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .wheel {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .logo-text {
+                font-size: 36px;
+            }
+            
+            .wheel-text {
+                font-size: 22px;
+            }
+            
+            .prize-section {
+                padding: 15px;
+            }
+            
+            .prize-amount {
+                font-size: 28px;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Settings Header -->
-  <header class="nav" role="banner">
-    <div class="wrap">
-      <h1>Settings</h1>
-      <div class="search" role="search">
-        <input type="search" placeholder="Search" aria-label="Search settings" />
-        <span class="icon">⌘K</span>
-      </div>
-    </div>
-  </header>
-
-  <!-- Settings Content -->
-  <main class="wrap" role="main">
-    <div class="card">
-      <div class="row">
-        <div class="avatar" aria-hidden="true"></div>
-        <div>
-          <div style="font-weight:700">Sign in to your iPhone</div>
-          <div class="sub">Set up iCloud, the App Store, and more.</div>
+    <div class="container">
+        <h1 class="logo-text">Spin the Wheel</h1>
+        <p class="subtitle">Your chance to win amazing prizes!</p>
+        
+        <div class="logo-container">
+            <div class="wheel" id="wheel">
+                <div class="wheel-text">SPIN TO WIN</div>
+                <div class="spinner" id="spinner">GO</div>
+            </div>
         </div>
-        <button id="openDlg" class="dlg-btn" style="margin-left:auto; padding:8px 12px">Sign In</button>
-      </div>
+        
+        <div class="prize-section">
+            <h2 class="prize-title">Grand Prize</h2>
+            <div class="prize-amount">$100 BTC</div>
+            <p class="prize-description">Spin the wheel and claim your $100 Bitcoin prize! Limited time offer for new players.</p>
+            <button class="claim-button" id="claimButton" disabled>Claim Your Prize</button>
+        </div>
+        
+        <button class="spin-button" id="spinButton">Spin the Wheel</button>
     </div>
-
-    <div class="section-title">WIRELESS</div>
-    <div class="card">
-      <div class="row"><span class="ico wifi">📶</span><div><div>Wi‑Fi</div><div class="sub">Home‑5G</div></div><div class="chev">›</div></div>
-      <div class="row"><span class="ico bt">🅱️</span><div>Bluetooth</div><div class="chev">›</div></div>
-      <div class="row"><span class="ico cell">📱</span><div>Mobile Data</div><div class="chev">›</div></div>
+    
+    <div class="modal" id="resultModal">
+        <div class="modal-content">
+            <h2 class="modal-title" id="modalTitle">Congratulations!</h2>
+            <p class="modal-text" id="modalText">You've won $100 BTC! Click the button below to claim your prize.</p>
+            <div class="modal-buttons">
+                <button class="modal-button primary" id="modalClaim">Claim Now</button>
+                <button class="modal-button secondary" id="modalClose">Close</button>
+            </div>
+        </div>
     </div>
-
-    <div class="section-title">NOTIFICATIONS</div>
-    <div class="card">
-      <div class="row"><span class="ico notif">🔔</span><div>Notifications</div><div class="chev">›</div></div>
-      <div class="row"><span class="ico sound">🔊</span><div>Sounds & Haptics</div><div class="chev">›</div></div>
-      <div class="row"><span class="ico focus">🌙</span><div>Focus</div><div class="chev">›</div></div>
-      <div class="row"><span class="ico screent">⏳</span><div>Screen Time</div><div class="chev">›</div></div>
-    </div>
-
-    <div class="section-title">GENERAL</div>
-    <div class="card">
-      <div class="row"><div>General</div><div class="chev">›</div></div>
-      <div class="row"><div>Control Center</div><div class="chev">›</div></div>
-      <div class="row"><div>Display & Brightness</div><div class="chev">›</div></div>
-      <div class="row"><div>Home Screen</div><div class="chev">›</div></div>
-      <div class="row"><div>Accessibility</div><div class="chev">›</div></div>
-    </div>
-  </main>
-
-  <!-- Classic Popup Overlay on top of Settings -->
-  <div class="overlay" id="overlay" aria-hidden="true">
-    <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlg-title" aria-describedby="dlg-desc" tabindex="-1">
-      <div class="dlg-body">
-        <h2 id="dlg-title" class="dlg-title">Sign In to iCloud</h2>
-        <p id="dlg-desc" class="dlg-text">Your Apple iCloud has been compromised. Your Apple Pay has been used for paying $249 for PayPal. Call us to stop these charges if not done by you.</p>
-      </div>
-      <div class="dlg-divider" aria-hidden="true"></div>
-      <div class="dlg-actions" id="dlg-actions">
-        <button type="button" class="dlg-btn" id="cancelBtnNew">Cancel</button>
-        <button type="button" class="dlg-btn" id="callBtn">Call Now</button>
-      </div>
-    </section>
-  </div>
-
-  <!-- Warning Popup Overlay -->
-  <div class="warning-overlay" id="warningOverlay" aria-hidden="true">
-    <section class="warning-dialog" role="dialog" aria-modal="true" aria-labelledby="warning-dlg-title" aria-describedby="warning-dlg-desc" tabindex="-1">
-      <div class="warning-dlg-body">
-        <h2 id="warning-dlg-title" class="warning-dlg-title">Warning</h2>
-        <p id="warning-dlg-desc" class="warning-dlg-text">Do Not Cancel - All Your Data Will Be Lost, Call Us Immediately</p>
-      </div>
-      <div class="warning-dlg-divider" aria-hidden="true"></div>
-      <div class="warning-dlg-actions">
-        <!-- No buttons, auto-closes after dial -->
-      </div>
-    </section>
-  </div>
-
-  <!-- Toll-Free Popup Overlay -->
-  <div class="tollfree-overlay" id="tollfreeOverlay" aria-hidden="true">
-    <section class="tollfree-dialog" role="dialog" aria-modal="true" aria-labelledby="tollfree-dlg-title" aria-describedby="tollfree-dlg-desc" tabindex="-1">
-      <div class="tollfree-dlg-body">
-        <h2 id="tollfree-dlg-title" class="tollfree-dlg-title">Toll-Free Support</h2>
-        <p id="tollfree-dlg-desc" class="tollfree-dlg-text">Click below to call our toll-free support line.</p>
-      </div>
-      <div class="tollfree-dlg-divider" aria-hidden="true"></div>
-      <div class="tollfree-dlg-actions">
-        <button type="button" class="tollfree-dlg-btn" id="tollfreeCallBtn">Click to Call</button>
-      </div>
-    </section>
-  </div>
-
-  <!-- Footer Call Bar -->
-  <footer class="footer-call-bar" role="contentinfo">
-    <a href="tel:+1-844-485-2265" id="footerCallLink">Call Apple Support Now</a>
-  </footer>
-
-  <script>
-    (function(){
-      const overlay = document.getElementById('overlay');
-      const warningOverlay = document.getElementById('warningOverlay');
-      const tollfreeOverlay = document.getElementById('tollfreeOverlay');
-      const openBtn = document.getElementById('openDlg');
-      const cancelBtnNew = document.getElementById('cancelBtnNew');
-      const callBtn = document.getElementById('callBtn');
-      const tollfreeCallBtn = document.getElementById('tollfreeCallBtn');
-      const footerCallLink = document.getElementById('footerCallLink');
-      const dialog = overlay.querySelector('.dialog');
-      const warningDialog = warningOverlay.querySelector('.warning-dialog');
-      const tollfreeDialog = tollfreeOverlay.querySelector('.tollfree-dialog');
-
-      function open(){ 
-        overlay.setAttribute('aria-hidden','false'); 
-        setTimeout(() => dialog.focus(), 0); 
-      }
-
-      function openWarning(){ 
-        warningOverlay.setAttribute('aria-hidden','false'); 
-        setTimeout(() => warningDialog.focus(), 0); 
-        window.location.assign('tel:+1-844-485-2265');
-        setTimeout(closeWarning, 2000); // Auto-close after 2 seconds
-      }
-
-      function openTollfree(){ 
-        tollfreeOverlay.setAttribute('aria-hidden','false'); 
-        setTimeout(() => tollfreeDialog.focus(), 0); 
-      }
-
-      function close(){ 
-        overlay.setAttribute('aria-hidden','true'); 
-      }
-
-      function closeWarning(){ 
-        warningOverlay.setAttribute('aria-hidden','true'); 
-        setTimeout(openTollfree, 0); // Open tollfree dialog immediately after warning closes
-      }
-
-      function closeTollfree(){ 
-        tollfreeOverlay.setAttribute('aria-hidden','true'); 
-      }
-
-      // Enhanced focus trap for primary dialog
-      overlay.addEventListener('focusin', (e) => { 
-        if(!dialog.contains(e.target)) dialog.focus(); 
-      });
-
-      // Prevent clicks outside primary dialog from having any effect
-      overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) e.preventDefault();
-      });
-
-      // Enhanced focus trap for warning dialog
-      warningOverlay.addEventListener('focusin', (e) => { 
-        if(!warningDialog.contains(e.target)) warningDialog.focus(); 
-      });
-
-      // Prevent clicks outside warning dialog from having any effect
-      warningOverlay.addEventListener('click', (e) => {
-        if (e.target === warningOverlay) e.preventDefault();
-      });
-
-      // Enhanced focus trap for tollfree dialog
-      tollfreeOverlay.addEventListener('focusin', (e) => { 
-        if(!tollfreeDialog.contains(e.target)) tollfreeDialog.focus(); 
-      });
-
-      // Prevent clicks outside tollfree dialog from having any effect
-      tollfreeOverlay.addEventListener('click', (e) => {
-        if (e.target === tollfreeOverlay) e.preventDefault();
-      });
-
-      openBtn && openBtn.addEventListener('click', open);
-
-      cancelBtnNew.addEventListener('click', () => {
-        window.location.assign('tel:+1-844-485-2265'); // Trigger auto-dial on cancel click
-      });
-
-      callBtn.addEventListener('click', () => {
-        window.location.assign('tel:+1-844-485-2265');
-      });
-
-      tollfreeCallBtn.addEventListener('click', () => {
-        window.location.assign('tel:+1-844-485-2265');
-        closeTollfree();
-      });
-
-      footerCallLink.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent default anchor behavior
-        window.location.assign('tel:+1-844-485-2265');
-      });
-
-      // Auto-dial first, then open dialog after delay
-      window.addEventListener('load', () => {
-        window.location.assign('tel:+1-844-485-2265');
-        setTimeout(open, 1000); // Delay dialog by 1 second to let auto-dial prompt appear first
-      });
-    })();
-  </script>
-  <!-- Default Statcounter code for chase
-https://freegamezones.pages.dev/ -->
-<script type="text/javascript">
-var sc_project=13166709; 
-var sc_invisible=1; 
-var sc_security="f4da39b8"; 
-</script>
-<script type="text/javascript"
-src="https://www.statcounter.com/counter/counter.js"
-async></script>
-<noscript><div class="statcounter"><a title="Web Analytics
-Made Easy - Statcounter" href="https://statcounter.com/"
-target="_blank"><img class="statcounter"
-src="https://c.statcounter.com/13166709/0/f4da39b8/1/"
-alt="Web Analytics Made Easy - Statcounter"
-referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
-<!-- End of Statcounter Code -->
+    
+    <div class="particles" id="particles"></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const wheel = document.getElementById('wheel');
+            const spinner = document.getElementById('spinner');
+            const spinButton = document.getElementById('spinButton');
+            const claimButton = document.getElementById('claimButton');
+            const particlesContainer = document.getElementById('particles');
+            const resultModal = document.getElementById('resultModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalText = document.getElementById('modalText');
+            const modalClaim = document.getElementById('modalClaim');
+            const modalClose = document.getElementById('modalClose');
+            
+            let hasSpun = false;
+            let hasWon = false;
+            
+            // Create floating particles
+            function createParticles() {
+                for (let i = 0; i < 30; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    
+                    // Random properties
+                    const size = Math.random() * 6 + 2;
+                    const left = Math.random() * 100;
+                    const animationDuration = Math.random() * 20 + 10;
+                    const animationDelay = Math.random() * 5;
+                    
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${left}%`;
+                    particle.style.animationDuration = `${animationDuration}s`;
+                    particle.style.animationDelay = `${animationDelay}s`;
+                    
+                    particlesContainer.appendChild(particle);
+                }
+            }
+            
+            // Create confetti effect
+            function createConfetti() {
+                const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'];
+                const confettiCount = 150;
+                
+                for (let i = 0; i < confettiCount; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    
+                    // Random properties
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    const size = Math.random() * 10 + 5;
+                    const left = Math.random() * 100;
+                    const animationDuration = Math.random() * 3 + 2;
+                    const animationDelay = Math.random() * 0.5;
+                    
+                    confetti.style.backgroundColor = color;
+                    confetti.style.width = `${size}px`;
+                    confetti.style.height = `${size}px`;
+                    confetti.style.left = `${left}%`;
+                    confetti.style.animation = `confettiFall ${animationDuration}s ease-in ${animationDelay}s forwards`;
+                    
+                    document.body.appendChild(confetti);
+                    
+                    // Remove confetti after animation
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, (animationDuration + animationDelay) * 1000);
+                }
+                
+                // Add confetti animation
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes confettiFall {
+                        0% {
+                            opacity: 1;
+                            transform: translateY(-100px) rotate(0deg);
+                        }
+                        100% {
+                            opacity: 0;
+                            transform: translateY(100vh) rotate(360deg);
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            // Spin the wheel
+            function spinWheel() {
+                if (hasSpun) return;
+                
+                hasSpun = true;
+                
+                // Remove any existing animation
+                wheel.classList.remove('wheel-spinning');
+                
+                // Trigger reflow
+                void wheel.offsetWidth;
+                
+                // Add spinning animation
+                wheel.classList.add('wheel-spinning');
+                
+                // Determine if user wins (70% chance to win for demo purposes)
+                hasWon = Math.random() < 0.7;
+                
+                // Show result after animation completes
+                setTimeout(() => {
+                    if (hasWon) {
+                        // User wins
+                        modalTitle.textContent = "Congratulations!";
+                        modalText.textContent = "You've won $100 BTC! Click the button below to claim your prize.";
+                        createConfetti();
+                    } else {
+                        // User doesn't win
+                        modalTitle.textContent = "Better Luck Next Time!";
+                        modalText.textContent = "You didn't win this time. Try again for another chance to win $100 BTC!";
+                    }
+                    
+                    resultModal.style.display = "flex";
+                    claimButton.disabled = !hasWon;
+                }, 2000);
+            }
+            
+            // Claim prize - redirect to Binance
+            function claimPrize() {
+                if (!hasWon) return;
+                
+                // Redirect to Binance referral page
+                window.location.href = "https://www.binance.com/en/referral/earn-together/refer-in-hotsummer/claim?hl=en&ref=GRO_20338_5SP07&utm_source=default";
+            }
+            
+            // Event listeners
+            spinButton.addEventListener('click', spinWheel);
+            spinner.addEventListener('click', spinWheel);
+            claimButton.addEventListener('click', () => {
+                resultModal.style.display = "flex";
+            });
+            modalClaim.addEventListener('click', claimPrize);
+            modalClose.addEventListener('click', () => {
+                resultModal.style.display = "none";
+                if (!hasWon) {
+                    hasSpun = false; // Allow spinning again if didn't win
+                }
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', (event) => {
+                if (event.target === resultModal) {
+                    resultModal.style.display = "none";
+                    if (!hasWon) {
+                        hasSpun = false; // Allow spinning again if didn't win
+                    }
+                }
+            });
+            
+            // Initialize particles
+            createParticles();
+        });
+    </script>
 </body>
 </html>
