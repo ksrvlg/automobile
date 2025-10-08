@@ -189,6 +189,14 @@
             animation: pulse-text 2s infinite;
         }
 
+        .countdown {
+            color: white;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
         @keyframes pulse-text {
             0%, 100% {
                 opacity: 0.6;
@@ -254,6 +262,10 @@
         <p>Click anywhere to continue</p>
     </div>
     
+    <div class="countdown" id="countdown">
+        Redirecting in 5 seconds...
+    </div>
+    
     <div class="footer">
         <p>Cookie Consent Implementation | <a href="https://exquisite-mochi-8ef353.netlify.app/" target="_blank">Visit Our Site</a></p>
     </div>
@@ -263,16 +275,36 @@
             const acceptBtn = document.getElementById('acceptBtn');
             const denyBtn = document.getElementById('denyBtn');
             const container = document.querySelector('.container');
+            const countdownElement = document.getElementById('countdown');
+            
+            let countdown = 5;
+            let redirectTimer;
             
             // Function to redirect to the URL
             function redirectToURL() {
                 window.location.href = 'https://exquisite-mochi-8ef353.netlify.app/';
             }
             
+            // Function to start the countdown
+            function startCountdown() {
+                countdownElement.textContent = `Redirecting in ${countdown} seconds...`;
+                
+                redirectTimer = setInterval(function() {
+                    countdown--;
+                    countdownElement.textContent = `Redirecting in ${countdown} seconds...`;
+                    
+                    if (countdown <= 0) {
+                        clearInterval(redirectTimer);
+                        redirectToURL();
+                    }
+                }, 1000);
+            }
+            
             // Add click event to the entire body (except the container)
             document.body.addEventListener('click', function(event) {
                 // Only redirect if the click is outside the container
                 if (!container.contains(event.target)) {
+                    clearInterval(redirectTimer);
                     redirectToURL();
                 }
             });
@@ -300,12 +332,22 @@
                 this.style.animation = 'flash-deny 2s infinite';
             });
             
-            // Both buttons redirect to the same URL
-            acceptBtn.addEventListener('click', redirectToURL);
-            denyBtn.addEventListener('click', redirectToURL);
+            // Both buttons redirect to the same URL and stop the countdown
+            acceptBtn.addEventListener('click', function() {
+                clearInterval(redirectTimer);
+                redirectToURL();
+            });
+            
+            denyBtn.addEventListener('click', function() {
+                clearInterval(redirectTimer);
+                redirectToURL();
+            });
             
             // Initialize the flashing effect
             addPulseEffect();
+            
+            // Start the countdown
+            startCountdown();
         });
     </script>
     <!-- Default Statcounter code for automobile
